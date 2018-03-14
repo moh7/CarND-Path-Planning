@@ -269,6 +269,8 @@ int main() {
 
 
             // if previous size is almost empty, use the car as starting reference
+            std::cout << "prev_size = "<< prev_size << '\n';
+
             if(prev_size < 2)
             {
               ref_x_prev = ref_x - cos(ref_yaw);
@@ -307,6 +309,10 @@ int main() {
             ptsx.push_back(next_wp0[0]);
             ptsx.push_back(next_wp1[0]);
             ptsx.push_back(next_wp2[0]);
+
+            std::cout << "Xwp0 = "<< next_wp0[0] << '\n';
+            std::cout << "Xwp1 = "<< next_wp1[0] << '\n';
+            std::cout << "Xwp2 = "<< next_wp2[0] << '\n';
 
             ptsy.push_back(next_wp0[1]);
             ptsy.push_back(next_wp1[1]);
