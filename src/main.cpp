@@ -273,7 +273,7 @@ int main() {
               double previous_car_x = car_x - cos(car_yaw);
               double previous_car_y = car_y - sin(car_yaw);
 
-              std::cout << "previous_car_x = " previous_car_x << '\n';
+              std::cout << "previous_car_x = "<< previous_car_x << '\n';
 
 
               ptsx.push_back(previous_car_x);
