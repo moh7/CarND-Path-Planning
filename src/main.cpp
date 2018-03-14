@@ -254,6 +254,9 @@ int main() {
 
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
 
+            vector<double> ptsx;
+            vector<double> ptsy;
+
 
             // reference x,y, yaw states
             double ref_x = car_x;
@@ -263,10 +266,10 @@ int main() {
             // if previous size is almost empty, use the car as starting reference
 
 
-         if(path_size < 2)
+         if(prev_size < 2)
          {
-             previous_car_x = car_x - cos(car_yaw);
-             previous_car_y = car_y - sin(car_yaw);
+             double previous_car_x = car_x - cos(car_yaw);
+             double previous_car_y = car_y - sin(car_yaw);
 
              ptsx.push_back(previous_car_x);
              ptsx.push_back(car_x);
