@@ -375,6 +375,10 @@ int main() {
               next_y_vals.push_back(y_point);
 
             }
+            std::cout <<" "  << '\n\n';
+            for (int i = 0; i < next_x_vals.size(); i++) {
+            std::cout << next_x_vals[i] << '\n';
+            }
 
             // END
             msgJson["next_x"] = next_x_vals;
