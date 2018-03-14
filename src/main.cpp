@@ -242,7 +242,6 @@ int main() {
             // Sensor Fusion Data, a list of all other cars on the same side of the road.
             auto sensor_fusion = j[1]["sensor_fusion"];
 
-            int prev_size = previous_path_x.size();
 
             json msgJson;
 
@@ -253,9 +252,49 @@ int main() {
             // Have a reference velocity to target
             double ref_vel = 49.5; // mph
 
+            int prev_size = previous_path_x.size();
+
+            if (prev_size > 0){
+              car_s = end_path_s;
+            }
+
+            bool too_close = false;
+
+            for (int i = 0; i < sensor_fusion.size(); i++) {
+              // car is in my lane
+              float d = sensor_fusion[i][6];
+              if (d < (2+4*lane+2) && d > (2+4*lane-2))
+              {
+                double vx = sensor_fusion[i][3];
+                double vy = sensor_fusion[i][4];
+                double check_speed = sqrt(vx*vx + vy*vy);
+                double check_car_s = sensor_fusion[i][5];
+
+                check_car_s = ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
+                // check s values greater than mine and s gap
+                if ((check_car_s > car_s) && (check_car_s - car_s < 30))
+                {
+                  too_close = true;
+                  if (lane > 0)
+                  {
+                    lane = 0;
+                  }
+                }
+
+              }
+
+            }
+            if (too_close)
+            {
+              ref_vel -= 0.224;
+            }
+            else if (ref_vel < 49.5)
+            {
+              ref_vel += 0.224;
+            }
+
             vector<double> ptsx;
             vector<double> ptsy;
-
 
             // reference x,y, yaw states
             double ref_x = car_x;
@@ -263,9 +302,6 @@ int main() {
             double ref_yaw = deg2rad(car_yaw);
             double ref_x_prev;
             double ref_y_prev;
-            std::cout << "car_x = "<< car_x << '\n';
-            std::cout << "car_yaw = "<< car_yaw << '\n';
-            std::cout << "ref_yaw = "<< ref_yaw << '\n';
 
 
             // if previous size is almost empty, use the car as starting reference
