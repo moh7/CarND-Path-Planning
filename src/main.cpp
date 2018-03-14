@@ -248,7 +248,7 @@ int main() {
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
             //start in lane 1
             int lane = 1;
-          
+
             // Have a reference velocity to target
             double ref_vel = 49.5; // mph
 
@@ -277,8 +277,8 @@ int main() {
          }
          else
          {
-             ref_x = previous_path_x[path_size-1];
-             ref_y = previous_path_y[path_size-1];
+             ref_x = previous_path_x[prev_size-1];
+             ref_y = previous_path_y[prev_size-1];
 
              double ref_x_prev = previous_path_x[prev_size-2];
              double ref_y_prev = previous_path_y[prev_size-2];
@@ -322,7 +322,7 @@ int main() {
          s.set_points(ptsx, ptsy);
 
          // Define the actual (x,y) points we will use for the planner
-         vector<double> next_x_vals
+         vector<double> next_x_vals;
          vector<double> next_y_vals;
 
          // start with all the previous path points from the last time
