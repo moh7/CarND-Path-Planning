@@ -1,6 +1,6 @@
 cd ..
-cd CarND-MPC-Project
+cd CarND-Path-Planning
 git pull origin master
 cd build
 cmake .. & make
-./mpc
+./path_planning
