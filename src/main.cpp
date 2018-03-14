@@ -312,7 +312,10 @@ int main() {
               ptsy[i] = (shift_x * sin(0-ref_yaw) + shift_y * cos(0-ref_yaw));
 
             }
-            std::cout << ptsx << '\n';
+
+            for (int i = 0; i < ptsx.size(); i++) {
+            std::cout << ptsx[i] << '\n';
+            }
 
             // create a spline
             tk::spline s;
