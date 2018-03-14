@@ -262,9 +262,9 @@ int main() {
             double ref_y = car_y;
             double ref_yaw = deg2rad(car_yaw);
 
-            std::cout << "car_x = " car_x << '\n';
-            std::cout << "car_yaw = " car_yaw << '\n';
-            std::cout << "ref_yaw = " ref_yaw << '\n';
+            std::cout << "car_x = "<< car_x << '\n';
+            std::cout << "car_yaw = "<< car_yaw << '\n';
+            std::cout << "ref_yaw = "<< ref_yaw << '\n';
 
 
             // if previous size is almost empty, use the car as starting reference
