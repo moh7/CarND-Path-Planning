@@ -378,9 +378,9 @@ int main() {
 
             }
 
-            for (int i = 0; i < next_x_vals.size(); i++) {
-            std::cout << "next_x_vals[" << i <<"]"<< next_x_vals[i] << '\n';
-            }
+            //for (int i = 0; i < next_x_vals.size(); i++) {
+            //std::cout << "next_x_vals[" << i <<"]"<< next_x_vals[i] << '\n';
+            //}
 
             // END
             msgJson["next_x"] = next_x_vals;
