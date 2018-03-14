@@ -310,9 +310,9 @@ int main() {
             ptsx.push_back(next_wp1[0]);
             ptsx.push_back(next_wp2[0]);
 
-            std::cout << "Xwp0 = "<< next_wp0[0] << '\n';
-            std::cout << "Xwp1 = "<< next_wp1[0] << '\n';
-            std::cout << "Xwp2 = "<< next_wp2[0] << '\n';
+            for (int i = 0; i < ptsx.size(); i++) {
+            std::cout << ptsx[i] << '\n';
+            }
 
             ptsy.push_back(next_wp0[1]);
             ptsy.push_back(next_wp1[1]);
