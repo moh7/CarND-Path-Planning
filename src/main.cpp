@@ -261,7 +261,8 @@ int main() {
             double ref_x = car_x;
             double ref_y = car_y;
             double ref_yaw = deg2rad(car_yaw);
-
+            double ref_x_prev;
+            double ref_y_prev;
             std::cout << "car_x = "<< car_x << '\n';
             std::cout << "car_yaw = "<< car_yaw << '\n';
             std::cout << "ref_yaw = "<< ref_yaw << '\n';
@@ -270,25 +271,24 @@ int main() {
             // if previous size is almost empty, use the car as starting reference
             if(prev_size < 2)
             {
-              double previous_car_x = car_x - cos(car_yaw);
-              double previous_car_y = car_y - sin(car_yaw);
+              ref_x_prev = ref_x - cos(ref_yaw);
+              ref_y_prev = ref_y - sin(ref_yaw);
 
-              std::cout << "previous_car_x = "<< previous_car_x << '\n';
+              std::cout << "ref_x_prev = "<< ref_x_prev << '\n';
 
+              ptsx.push_back(ref_x_prev);
+              ptsx.push_back(ref_x);
 
-              ptsx.push_back(previous_car_x);
-              ptsx.push_back(car_x);
-
-              ptsy.push_back(previous_car_y);
-              ptsy.push_back(car_y);
+              ptsy.push_back(ref_y_prev);
+              ptsy.push_back(ref_y);
             }
             else
             {
               ref_x = previous_path_x[prev_size-1];
               ref_y = previous_path_y[prev_size-1];
 
-              double ref_x_prev = previous_path_x[prev_size-2];
-              double ref_y_prev = previous_path_y[prev_size-2];
+              ref_x_prev = previous_path_x[prev_size-2];
+              ref_y_prev = previous_path_y[prev_size-2];
               ref_yaw = atan2(ref_y-ref_y_prev,ref_x-ref_x_prev);
 
               // Use two points that make the path tangent to the previous path's end point
