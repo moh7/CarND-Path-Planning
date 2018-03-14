@@ -231,6 +231,7 @@ int main() {
             double car_yaw = j[1]["yaw"];
             double car_speed = j[1]["speed"];
 
+
             // Previous path data given to the Planner
             auto previous_path_x = j[1]["previous_path_x"];
             auto previous_path_y = j[1]["previous_path_y"];
@@ -261,11 +262,19 @@ int main() {
             double ref_y = car_y;
             double ref_yaw = deg2rad(car_yaw);
 
+            std::cout << "car_x = " car_x << '\n';
+            std::cout << "car_yaw = " car_yaw << '\n';
+            std::cout << "ref_yaw = " ref_yaw << '\n';
+
+
             // if previous size is almost empty, use the car as starting reference
             if(prev_size < 2)
             {
               double previous_car_x = car_x - cos(car_yaw);
               double previous_car_y = car_y - sin(car_yaw);
+
+              std::cout << "previous_car_x = " previous_car_x << '\n';
+
 
               ptsx.push_back(previous_car_x);
               ptsx.push_back(car_x);
