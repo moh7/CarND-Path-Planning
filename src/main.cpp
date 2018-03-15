@@ -165,14 +165,16 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 
 }
 
+//start in lane 1
+int lane = 1;
+
+// Have a reference velocity to target
+double ref_vel = 0.0; // mph
+
 int main() {
   uWS::Hub h;
 
-  //start in lane 1
-  int lane = 1;
 
-  // Have a reference velocity to target
-  double ref_vel = 0.0; // mph
 
   // Load up map values for waypoint's x,y,s and d normalized normal vectors
   vector<double> map_waypoints_x;
