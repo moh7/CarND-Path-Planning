@@ -286,11 +286,11 @@ int main() {
             }
             if (too_close)
             {
-              ref_vel -= 0.224;
+              ref_vel -= 2.24;
             }
             else if (ref_vel < 49.5)
             {
-              ref_vel += 0.224;
+              ref_vel += 2.24;
             }
 
             vector<double> ptsx;
