@@ -250,7 +250,7 @@ int main() {
             int lane = 1;
 
             // Have a reference velocity to target
-            double ref_vel = 0; // mph
+            double ref_vel = 0.0; // mph
 
             int prev_size = previous_path_x.size();
 
