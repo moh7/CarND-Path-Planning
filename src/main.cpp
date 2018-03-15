@@ -238,7 +238,7 @@ int lane = 1;
 
 // Have a reference velocity to target
 double ref_vel = 0.0; // mph
-vector<double> gap = [5 7]; // the required space gap in the side lane to allow lane change in m
+vector<double> gap = {5, 7}; // the required space gap in the side lane to allow lane change in m
 
 int main() {
   uWS::Hub h;
@@ -347,7 +347,7 @@ int main() {
                 if((check_car_s > car_s) && (check_car_s - car_s < 30))
                 {
                   too_close = true;
-                  lane = changeLane(lane, gap, sensor_fusion, prev_size, car_s )
+                  lane = changeLane(lane, gap, sensor_fusion, prev_size, car_s );
 
 '''
                   if (lane == 1)
