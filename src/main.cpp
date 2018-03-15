@@ -238,7 +238,7 @@ int lane = 1;
 
 // Have a reference velocity to target
 double ref_vel = 0.0; // mph
-vector<double> gap = {7, 35}; // the required space gap in the side lane to allow lane change (m)
+vector<double> gap = {7, 35}; // range (-gap[0], gap[1]) m : the required free s space  in the side lane to allow lane change
 
 int main() {
   uWS::Hub h;
