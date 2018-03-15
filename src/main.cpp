@@ -270,7 +270,7 @@ int main() {
                 double check_speed = sqrt(vx*vx + vy*vy);
                 double check_car_s = sensor_fusion[i][5];
 
-                check_car_s = ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
+                check_car_s += ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
                 // check s values greater than mine and s gap
                 if ((check_car_s > car_s) && (check_car_s - car_s < 30))
                 {
