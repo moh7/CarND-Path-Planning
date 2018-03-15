@@ -275,23 +275,28 @@ int main() {
                 if ((check_car_s > car_s) && (check_car_s - car_s < 30))
                 {
                   too_close = true;
-                  //if (lane > 0)
-                  //{
-                    //lane = 0;
-                  //}
+                  if (lane > 0)
+                  {
+                    lane = 0;
+                  }
                 }
 
               }
-
             }
+
+            std::cout << too_close << '\n';
+            std::cout << ref_vel << '\n';
             if (too_close)
             {
-              ref_vel -= 2.24;
+              ref_vel -= 0.224;
             }
+            std::cout << ref_vel << '\n';
+
             else if (ref_vel < 49.5)
             {
-              ref_vel += 2.24;
+              ref_vel += 0.224;
             }
+            std::cout << ref_vel << '\n';
 
             vector<double> ptsx;
             vector<double> ptsy;
