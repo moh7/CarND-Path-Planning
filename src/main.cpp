@@ -168,6 +168,12 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 int main() {
   uWS::Hub h;
 
+  //start in lane 1
+  int lane = 1;
+
+  // Have a reference velocity to target
+  double ref_vel = 0.0; // mph
+
   // Load up map values for waypoint's x,y,s and d normalized normal vectors
   vector<double> map_waypoints_x;
   vector<double> map_waypoints_y;
@@ -202,11 +208,7 @@ int main() {
     map_waypoints_dy.push_back(d_y);
   }
 
-  //start in lane 1
-  int lane = 1;
 
-  // Have a reference velocity to target
-  double ref_vel = 0.0; // mph
 
   h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
     uWS::OpCode opCode) {
