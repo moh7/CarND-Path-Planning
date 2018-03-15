@@ -171,8 +171,8 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 bool check_lane(int check_lane, vector<vector<double>> sensor_fusion, int prev_size, double car_s)
 {
 bool is_lane_free = true;
-for (int i = 0; i < sensor_fusion.size(); i++) {
-
+for (int i = 0; i < sensor_fusion.size(); i++)
+{
   // car is in check_lane
   float d = sensor_fusion[i][6];
   if(d < (2+4*check_lane+2) && d > (2+4*check_lane-2))
@@ -190,6 +190,7 @@ for (int i = 0; i < sensor_fusion.size(); i++) {
     }
     return is_lane_free;
   }
+}
 }
 
 //start in lane 1
