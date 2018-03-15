@@ -167,30 +167,30 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 
 
 
+// Checks if the specified gap in check_lane exists. We use this function to decide if it is safe to move to check_lane.
+bool isLaneFree(int check_lane, vector<double> gap, vector<vector<double>> sensor_fusion, int prev_size, double car_s)
+{
 
-bool check_lane_isfree(int check_lane, vector<vector<double>> sensor_fusion, int prev_size, double car_s)
-{
-bool is_lane_free = true;
-for (int i = 0; i < sensor_fusion.size(); i++)
-{
-  // car is in check_lane
-  float d = sensor_fusion[i][6];
-  if(d < (2+4*check_lane+2) && d > (2+4*check_lane-2))
+  bool is_free = true;
+  for (int i = 0; i < sensor_fusion.size(); i++)
   {
-    double vx = sensor_fusion[i][3];
-    double vy = sensor_fusion[i][4];
-    double check_speed = sqrt(vx*vx + vy*vy);
-    double check_car_s = sensor_fusion[i][5];
-
-    check_car_s += ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
-    if(((check_car_s > car_s) && (check_car_s - car_s < 10)) || ((check_car_s < car_s) && (car_s - check_car_s < 10))) // a space gap of [-10 10] m is available
+    float d = sensor_fusion[i][6];
+    if(d < (2+4*check_lane+2) && d > (2+4*check_lane-2)) // the is a car in check_lane
     {
-      is_lane_free = false;
-      continue;
+      double vx = sensor_fusion[i][3];
+      double vy = sensor_fusion[i][4];
+      double check_speed = sqrt(vx*vx + vy*vy);
+      double check_car_s = sensor_fusion[i][5];
+      check_car_s += ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
+
+      if(((check_car_s > car_s) && (check_car_s - car_s < gap[0])) || ((check_car_s < car_s) && (car_s - check_car_s < gap[1]))) // a space gap of [-gap[0] gap[1]] m is available
+      {
+        is_free = false;
+        continue;
+      }
     }
   }
-}
-return is_lane_free;
+  return is_free;
 }
 
 //start in lane 1
@@ -198,6 +198,7 @@ int lane = 1;
 
 // Have a reference velocity to target
 double ref_vel = 0.0; // mph
+vector<double> gap = [5 7]; // the required space gap in the side lane to allow lane change in m
 
 int main() {
   uWS::Hub h;
@@ -311,16 +312,16 @@ int main() {
                   if (lane == 1)
                   {
                     int check_lane = 0;
-                    bool is_lane_free = check_lane_isfree(check_lane, sensor_fusion, prev_size, car_s);
-                    if (is_lane_free == true)
+                    bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
+                    if (is_free == true)
                     {
                       lane = check_lane;
                     }
-                    if (is_lane_free == false)
+                    if (is_free == false)
                     {
                       int check_lane = 2;
-                      bool is_lane_free = check_lane_isfree(check_lane, sensor_fusion, prev_size, car_s);
-                      if (is_lane_free == true)
+                      bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
+                      if (is_free == true)
                       {
                         lane = check_lane;
                       }
@@ -330,8 +331,8 @@ int main() {
                   else // (lane == 0 || lane == 2)
                   {
                     int check_lane = 1;
-                    bool is_lane_free = check_lane_isfree(check_lane, sensor_fusion, prev_size, car_s);
-                    if (is_lane_free == true)
+                    bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
+                    if (is_free == true)
                     {
                       lane = check_lane;
                     }
