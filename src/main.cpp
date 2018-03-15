@@ -193,6 +193,46 @@ bool isLaneFree(int check_lane, vector<double> gap, vector<vector<double>> senso
   return is_free;
 }
 
+
+// Selects a lane to move to depending on the current position of the car and sensor fusion data
+int changeLane(int lane, vector<double> gap, vector<vector<double>> sensor_fusion, int prev_size, double car_s )
+{
+  int selected_lane = lane;
+  if (lane == 1) // if we are in middle lane
+  {
+    int check_lane = 0;  // check if the left lane is free
+    bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
+    if (is_free == true)
+    {
+      selected_lane = check_lane;
+    }
+
+    if (is_free == false) // if the left lane is not free, check the right lane
+    {
+      int check_lane = 2;
+      bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
+      if (is_free == true)
+      {
+        selected_lane = check_lane;
+      }
+    }
+  }
+
+
+  else // if we are initially in the left or right lanes
+  {
+    int check_lane = 1; // check middle lane
+    bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
+    if (is_free == true)
+    {
+      selected_lane = check_lane;
+    }
+  }
+
+  return selected_lane;
+}
+
+
 //start in lane 1
 int lane = 1;
 
@@ -279,7 +319,6 @@ int main() {
             // Sensor Fusion Data, a list of all other cars on the same side of the road.
             auto sensor_fusion = j[1]["sensor_fusion"];
 
-
             json msgJson;
 
             // TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
@@ -308,7 +347,9 @@ int main() {
                 if((check_car_s > car_s) && (check_car_s - car_s < 30))
                 {
                   too_close = true;
+                  lane = changeLane(lane, gap, sensor_fusion, prev_size, car_s )
 
+'''
                   if (lane == 1)
                   {
                     int check_lane = 0;
@@ -337,6 +378,8 @@ int main() {
                       lane = check_lane;
                     }
                   }
+'''
+
 
                 }
 
