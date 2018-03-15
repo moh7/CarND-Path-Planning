@@ -165,6 +165,33 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 
 }
 
+
+
+
+bool is_lane_free check_lane(int check_lane, vector<vector<double> sensor_fusion, int prev_size, double car_s)
+{
+bool is_lane_free = true;
+for (int i = 0; i < sensor_fusion.size(); i++) {
+
+  // car is in check_lane
+  float d = sensor_fusion[i][6];
+  if(d < (2+4*check_lane+2) && d > (2+4*check_lane-2))
+  {
+    double vx = sensor_fusion[i][3];
+    double vy = sensor_fusion[i][4];
+    double check_speed = sqrt(vx*vx + vy*vy);
+    double check_car_s = sensor_fusion[i][5];
+
+    check_car_s += ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
+    if(((check_car_s > car_s) && (check_car_s - car_s < 30)) || ((check_car_s < car_s) && (car_s - check_car_s < 30))) // a space gap of [-30 30] m is available
+    {
+      is_lane_free = false;
+      continue;
+    }
+    return is_lane_free;
+}
+
+
 //start in lane 1
 int lane = 1;
 
@@ -279,10 +306,36 @@ int main() {
                 if((check_car_s > car_s) && (check_car_s - car_s < 30))
                 {
                   too_close = true;
-                  if (lane > 0)
+
+                  if (lane == 1)
                   {
-                    lane = 0;
+                    int check_lane = 0;
+                    bool is_lane_free = check_lane(check_lane, sensor_fusion, prev_size, car_s);
+                    if (is_lane_free == true)
+                    {
+                      lane = check_lane;
+                    }
+                    else
+                    {
+                      int check_lane = 2;
+                      bool is_lane_free = check_lane(check_lane, sensor_fusion, prev_size, car_s);
+                      if (is_lane_free == true)
+                      {
+                        lane = check_lane;
+                      }
+                    }
                   }
+
+                  if (lane == 0 || lane == 2)
+                  {
+                    int check_lane = 1;
+                    bool is_lane_free = check_lane(check_lane, sensor_fusion, prev_size, car_s);
+                    if (is_lane_free == true)
+                    {
+                      lane = check_lane;
+                    }
+                  }
+
                 }
 
               }
