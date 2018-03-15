@@ -183,7 +183,7 @@ bool isLaneFree(int check_lane, vector<double> gap, vector<vector<double>> senso
       double check_car_s = sensor_fusion[i][5];
       check_car_s += ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
 
-      if(((check_car_s > car_s) && (check_car_s - car_s < gap[0])) || ((check_car_s < car_s) && (car_s - check_car_s < gap[1]))) // a space gap of [-gap[0] gap[1]] m is available
+      if(((check_car_s > car_s) && (check_car_s - car_s < gap[1])) || ((check_car_s < car_s) && (car_s - check_car_s < gap[0]))) // a space gap of [-gap[0] gap[1]] m is available
       {
         is_free = false;
         continue;
@@ -238,12 +238,10 @@ int lane = 1;
 
 // Have a reference velocity to target
 double ref_vel = 0.0; // mph
-vector<double> gap = {5, 15}; // the required space gap in the side lane to allow lane change (m)
+vector<double> gap = {7, 15}; // the required space gap in the side lane to allow lane change (m)
 
 int main() {
   uWS::Hub h;
-
-
 
   // Load up map values for waypoint's x,y,s and d normalized normal vectors
   vector<double> map_waypoints_x;
@@ -278,8 +276,6 @@ int main() {
     map_waypoints_dx.push_back(d_x);
     map_waypoints_dy.push_back(d_y);
   }
-
-
 
   h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
     uWS::OpCode opCode) {
