@@ -238,7 +238,7 @@ int lane = 1;
 
 // Have a reference velocity to target
 double ref_vel = 0.0; // mph
-vector<double> gap = {5, 7}; // the required space gap in the side lane to allow lane change in m
+vector<double> gap = {5, 15}; // the required space gap in the side lane to allow lane change (m)
 
 int main() {
   uWS::Hub h;
@@ -323,7 +323,6 @@ int main() {
 
             // TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
 
-
             int prev_size = previous_path_x.size();
 
             if (prev_size > 0){
@@ -335,7 +334,7 @@ int main() {
             for (int i = 0; i < sensor_fusion.size(); i++) {
               // car is in my lane
               float d = sensor_fusion[i][6];
-              if(d < (2+4*lane+2) && d > (2+4*lane-2))
+              if(d < (2 + 4 * lane + 2) && d > (2 + 4 * lane - 2))
               {
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
@@ -343,61 +342,25 @@ int main() {
                 double check_car_s = sensor_fusion[i][5];
 
                 check_car_s += ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
-                // check s values greater than mine and s gap
+                // check s value is greater than mine and s gap
                 if((check_car_s > car_s) && (check_car_s - car_s < 30))
                 {
                   too_close = true;
-                  lane = changeLane(lane, gap, sensor_fusion, prev_size, car_s );
-
-'''
-                  if (lane == 1)
-                  {
-                    int check_lane = 0;
-                    bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
-                    if (is_free == true)
-                    {
-                      lane = check_lane;
-                    }
-                    if (is_free == false)
-                    {
-                      int check_lane = 2;
-                      bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
-                      if (is_free == true)
-                      {
-                        lane = check_lane;
-                      }
-                    }
-                  }
-
-                  else // (lane == 0 || lane == 2)
-                  {
-                    int check_lane = 1;
-                    bool is_free = isLaneFree(check_lane, gap, sensor_fusion, prev_size, car_s);
-                    if (is_free == true)
-                    {
-                      lane = check_lane;
-                    }
-                  }
-'''
-
-
+                  lane = changeLane(lane, gap, sensor_fusion, prev_size, car_s ); // change the lane to pass the car
                 }
-
               }
             }
 
-            //std::cout << too_close << '\n';
-            //std::cout << ref_vel << '\n';
-            if(too_close)
+            if (too_close) // if the car in my lane is too close, reduce the speed
             {
               ref_vel -= 0.224;
             }
 
-            else if(ref_vel < 49.5)
+            else if (ref_vel < 49.5) // try to keep the speed just below the speed limit
             {
               ref_vel += 0.224;
             }
-            //std::cout << ref_vel << '\n';
+
 
             vector<double> ptsx;
             vector<double> ptsy;
@@ -408,7 +371,6 @@ int main() {
             double ref_yaw = deg2rad(car_yaw);
             double ref_x_prev;
             double ref_y_prev;
-
 
             // if previous size is almost empty, use the car as starting reference
             if(prev_size < 2)
@@ -448,10 +410,6 @@ int main() {
             ptsx.push_back(next_wp1[0]);
             ptsx.push_back(next_wp2[0]);
 
-            //for (int i = 0; i < ptsx.size(); i++) {
-            //std::cout << ptsx[i] << '\n';
-            //}
-
             ptsy.push_back(next_wp0[1]);
             ptsy.push_back(next_wp1[1]);
             ptsy.push_back(next_wp2[1]);
@@ -465,10 +423,6 @@ int main() {
               ptsy[i] = (shift_x * sin(0-ref_yaw) + shift_y * cos(0-ref_yaw));
 
             }
-
-            //for (int i = 0; i < ptsx.size(); i++) {
-            //std::cout << ptsx[i] << '\n';
-            //}
 
             // create a spline
             tk::spline s;
@@ -513,14 +467,10 @@ int main() {
 
               next_x_vals.push_back(x_point);
               next_y_vals.push_back(y_point);
-
             }
 
-            //for (int i = 0; i < next_x_vals.size(); i++) {
-            //std::cout << "next_x_vals[" << i <<"]"<< next_x_vals[i] << '\n';
-            //}
+            // END of Path Planning Routine
 
-            // END
             msgJson["next_x"] = next_x_vals;
             msgJson["next_y"] = next_y_vals;
 
