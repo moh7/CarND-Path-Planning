@@ -290,7 +290,6 @@ int main() {
             {
               ref_vel -= 0.224;
             }
-            std::cout << ref_vel << '\n';
 
             else if (ref_vel < 49.5)
             {
