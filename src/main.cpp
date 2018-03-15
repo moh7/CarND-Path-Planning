@@ -168,7 +168,7 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 
 
 
-bool is_lane_free check_lane(int check_lane, vector<vector<double> sensor_fusion, int prev_size, double car_s)
+bool is_lane_free = check_lane(int check_lane, vector<vector<double> sensor_fusion, int prev_size, double car_s)
 {
 bool is_lane_free = true;
 for (int i = 0; i < sensor_fusion.size(); i++) {
