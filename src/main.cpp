@@ -183,7 +183,7 @@ for (int i = 0; i < sensor_fusion.size(); i++)
     double check_car_s = sensor_fusion[i][5];
 
     check_car_s += ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
-    if(((check_car_s > car_s) && (check_car_s - car_s < 7)) || ((check_car_s < car_s) && (car_s - check_car_s < 7))) // a space gap of [-15 15] m is available
+    if(((check_car_s > car_s) && (check_car_s - car_s < 10)) || ((check_car_s < car_s) && (car_s - check_car_s < 10))) // a space gap of [-10 10] m is available
     {
       is_lane_free = false;
       continue;
@@ -316,7 +316,7 @@ int main() {
                     {
                       lane = check_lane;
                     }
-                    else
+                    if (is_lane_free == false)
                     {
                       int check_lane = 2;
                       bool is_lane_free = check_lane_isfree(check_lane, sensor_fusion, prev_size, car_s);
@@ -327,7 +327,7 @@ int main() {
                     }
                   }
 
-                  if (lane == 0 || lane == 2)
+                  else // (lane == 0 || lane == 2)
                   {
                     int check_lane = 1;
                     bool is_lane_free = check_lane_isfree(check_lane, sensor_fusion, prev_size, car_s);
