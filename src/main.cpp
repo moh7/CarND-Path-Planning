@@ -305,14 +305,10 @@ int main() {
 
 
             // if previous size is almost empty, use the car as starting reference
-            std::cout << "prev_size = "<< prev_size << '\n';
-
             if(prev_size < 2)
             {
               ref_x_prev = ref_x - cos(ref_yaw);
               ref_y_prev = ref_y - sin(ref_yaw);
-
-              std::cout << "ref_x_prev = "<< ref_x_prev << '\n';
 
               ptsx.push_back(ref_x_prev);
               ptsx.push_back(ref_x);
@@ -346,9 +342,9 @@ int main() {
             ptsx.push_back(next_wp1[0]);
             ptsx.push_back(next_wp2[0]);
 
-            for (int i = 0; i < ptsx.size(); i++) {
-            std::cout << ptsx[i] << '\n';
-            }
+            //for (int i = 0; i < ptsx.size(); i++) {
+            //std::cout << ptsx[i] << '\n';
+            //}
 
             ptsy.push_back(next_wp0[1]);
             ptsy.push_back(next_wp1[1]);
@@ -364,9 +360,9 @@ int main() {
 
             }
 
-            for (int i = 0; i < ptsx.size(); i++) {
-            std::cout << ptsx[i] << '\n';
-            }
+            //for (int i = 0; i < ptsx.size(); i++) {
+            //std::cout << ptsx[i] << '\n';
+            //}
 
             // create a spline
             tk::spline s;
