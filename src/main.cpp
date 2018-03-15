@@ -265,7 +265,7 @@ int main() {
             for (int i = 0; i < sensor_fusion.size(); i++) {
               // car is in my lane
               float d = sensor_fusion[i][6];
-              if (d < (2+4*lane+2) && d > (2+4*lane-2))
+              if(d < (2+4*lane+2) && d > (2+4*lane-2))
               {
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
@@ -274,7 +274,7 @@ int main() {
 
                 check_car_s += ((double)prev_size * 0.02 * check_speed); // if using previous points, project s value output
                 // check s values greater than mine and s gap
-                if ((check_car_s > car_s) && (check_car_s - car_s < 30))
+                if((check_car_s > car_s) && (check_car_s - car_s < 30))
                 {
                   too_close = true;
                   if (lane > 0)
@@ -286,18 +286,18 @@ int main() {
               }
             }
 
-            std::cout << too_close << '\n';
-            std::cout << ref_vel << '\n';
-            if (too_close)
+            //std::cout << too_close << '\n';
+            //std::cout << ref_vel << '\n';
+            if(too_close)
             {
               ref_vel -= 0.224;
             }
 
-            else if (ref_vel < 49.5)
+            else if(ref_vel < 49.5)
             {
               ref_vel += 0.224;
             }
-            std::cout << ref_vel << '\n';
+            //std::cout << ref_vel << '\n';
 
             vector<double> ptsx;
             vector<double> ptsy;
