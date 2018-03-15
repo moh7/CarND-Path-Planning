@@ -168,7 +168,7 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 
 
 
-bool check_lane(int check_lane, vector<vector<double>> sensor_fusion, int prev_size, double car_s)
+bool check_lane_isfree(int check_lane, vector<vector<double>> sensor_fusion, int prev_size, double car_s)
 {
 bool is_lane_free = true;
 for (int i = 0; i < sensor_fusion.size(); i++)
@@ -311,7 +311,7 @@ int main() {
                   if (lane == 1)
                   {
                     int check_lane = 0;
-                    bool is_lane_free = check_lane(check_lane, sensor_fusion, prev_size, car_s);
+                    bool is_lane_free = check_lane_isfree(check_lane, sensor_fusion, prev_size, car_s);
                     if (is_lane_free == true)
                     {
                       lane = check_lane;
@@ -319,7 +319,7 @@ int main() {
                     else
                     {
                       int check_lane = 2;
-                      bool is_lane_free = check_lane(check_lane, sensor_fusion, prev_size, car_s);
+                      bool is_lane_free = check_lane_isfree(check_lane, sensor_fusion, prev_size, car_s);
                       if (is_lane_free == true)
                       {
                         lane = check_lane;
@@ -330,7 +330,7 @@ int main() {
                   if (lane == 0 || lane == 2)
                   {
                     int check_lane = 1;
-                    bool is_lane_free = check_lane(check_lane, sensor_fusion, prev_size, car_s);
+                    bool is_lane_free = check_lane_isfree(check_lane, sensor_fusion, prev_size, car_s);
                     if (is_lane_free == true)
                     {
                       lane = check_lane;
