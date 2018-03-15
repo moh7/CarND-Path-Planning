@@ -189,8 +189,8 @@ for (int i = 0; i < sensor_fusion.size(); i++) {
       continue;
     }
     return is_lane_free;
+  }
 }
-
 
 //start in lane 1
 int lane = 1;
